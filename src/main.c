@@ -2,6 +2,9 @@
 #include <string.h>
 #include "auth.h"
 
+#define MAX_USERNAME 51
+#define MAX_PASSWORD 51
+
 void clear_input()
 {
     int c;
@@ -16,23 +19,36 @@ void menu()
     printf("3. Exit\n");
 }
 
+void read_line(char *buffer, int max_len)
+{
+    if (fgets(buffer, max_len, stdin) != NULL)
+    {
+        size_t len = strlen(buffer);
+        if (len > 0 && buffer[len - 1] == '\n')
+        {
+            buffer[len - 1] = '\0';
+        }
+        else
+        {
+            clear_input();
+        }
+    }
+}
+
 int main()
 {
     int choice;
-    char username[USERNAME_MAX];
-    char password[PASSWORD_MAX];
+    char username[MAX_USERNAME];
+    char password[MAX_PASSWORD];
 
     while (1)
     {
         menu();
         printf("Choice: ");
 
-        if (scanf("%d", &choice) != 1)
-        {
-            printf("Invalid input. Please enter a number.\n");
-            clear_input();
-            continue;
-        }
+        char choice_buffer[10];
+        read_line(choice_buffer, sizeof(choice_buffer));
+        choice = atoi(choice_buffer);
 
         if (choice < 1 || choice > 3)
         {
@@ -43,7 +59,7 @@ int main()
         if (choice == 1)
         {
             printf("Username (3-50 chars): ");
-            scanf("%50s", username);
+            read_line(username, sizeof(username));
 
             int len_username = strlen(username);
             if (len_username < 3)
@@ -51,24 +67,14 @@ int main()
                 printf("Username too short. Must be at least 3 characters.\n");
                 continue;
             }
-            if (len_username > 50)
-            {
-                printf("Username too long. Max 50 characters.\n");
-                continue;
-            }
 
             printf("Password (8-50 chars): ");
-            scanf("%50s", password);
+            read_line(password, sizeof(password));
 
             int len_password = strlen(password);
             if (len_password < 8)
             {
                 printf("Password too short. Must be at least 8 characters.\n");
-                continue;
-            }
-            if (len_password > 50)
-            {
-                printf("Password too long. Max 50 characters.\n");
                 continue;
             }
 
@@ -81,14 +87,13 @@ int main()
                 printf("User already exists\n");
             }
         }
-
         else if (choice == 2)
         {
             printf("Username: ");
-            scanf("%50s", username);
+            read_line(username, sizeof(username));
 
             printf("Password: ");
-            scanf("%50s", password);
+            read_line(password, sizeof(password));
 
             if (login_user(username, password))
             {
@@ -99,7 +104,6 @@ int main()
                 printf("Invalid credentials\n");
             }
         }
-
         else if (choice == 3)
         {
             printf("Exiting...\n");
