@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "auth.h"
+#include <stdlib.h>
 
 #define MAX_USERNAME 51
 #define MAX_PASSWORD 51
@@ -68,6 +69,12 @@ int main()
                 continue;
             }
 
+            if (len_username > 50)
+            {
+                printf("Username too long. Must be less than 51 characters.\n");
+                continue;
+            }
+
             printf("Password (8-50 chars): ");
             read_line(password, sizeof(password));
 
@@ -75,6 +82,12 @@ int main()
             if (len_password < 8)
             {
                 printf("Password too short. Must be at least 8 characters.\n");
+                continue;
+            }
+
+            if (len_password > 50)
+            {
+                printf("Password too long. Must be less than 51 characters.\n");
                 continue;
             }
 
