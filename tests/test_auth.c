@@ -80,6 +80,14 @@ void test_login_fail()
     printf("PASSED\n");
 }
 
+void test_login_fail_wrong_password()
+{
+    int result = login_user("loginuser", "wrongpassword");
+    printf("Test: Login fail (wrong password) -> ");
+    assert(result == 0);
+    printf("PASSED\n");
+}
+
 int main()
 {
     set_db_file(TEST_DB);
@@ -95,6 +103,7 @@ int main()
     test_registration_existing_user();
     test_login_success();
     test_login_fail();
+    test_login_fail_wrong_password();
 
     printf("\nAll tests passed\n");
     return 0;
