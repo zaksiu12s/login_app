@@ -4,6 +4,7 @@
 #include "auth.h"
 
 int save_user(User user);
-int find_user(const char *username, User *result);
+int find_user(const char *username, User *user);
+void set_db_file(const char *filename);
 
 #endif

@@ -11,6 +11,9 @@
 
 1. Open the project folder.
 2. Compile the tests (On Windows eg. (MinGW / MSYS2 / UCRT64)).
+
+- MinGW: `gcc tests/test_auth.c src/auth.c src/storage.c -o tests`
+
 3. Run the app with tests.exe file.
 
 ## Prerequisites
